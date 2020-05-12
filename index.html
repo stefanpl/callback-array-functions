@@ -47,11 +47,11 @@
     <p>Without further ado, let's see some code:</p>
     <pre><code>
       const starWarsNames = [
-        'Luke',
-        'Leia',
-        'Obi Wan',
-        'Master Yoda',
-        'Darth Vader'
+      'Luke',
+      'Leia',
+      'Obi Wan',
+      'Master Yoda',
+      'Darth Vader'
       ];
       
       names.forEach(function sayHi(name) {
@@ -106,30 +106,32 @@
     <p>Since <code>forEach accepts a function, all of these are perfectly valid:</code></p>
     <pre><code>
       const starWarsNames = [
-        // …
+      // …
       ];
       
-      // We've had this one before
+      // We've had this one before.
+      // It's using a so-called function statement.
       starWarsNames.forEach(function sayHi(name) {
         console.log(`Hi ${name}`);
       });
       
       
-      // Defining the function first …
+      // Standalone function statement first …
       function sayHi(name) {
         console.log(`Hi ${name}`);
       }
-      // … and have a much cleaner-looking call:
+      // … and now a much cleaner-looking call:
       starWarsNames.forEach(sayHi);
       
       
       // Using an anonymous function:
       starWarsNames.forEach(function (name) {
-        console.log(`Hi ${name}`);
+        console.log(`Hi ${name}!`);
       });
       
       
-      // Kind of weird, but working:
+      // Kind of weird, but working.
+      // A so-called function expression.
       const myFunc = function (name) {
         console.log(`Hi ${name}`);
       }
@@ -152,6 +154,9 @@
       <div class="pro">
         Do the above exercise, but using your own custom <code>forEach</code> implementation:
         <code>people.myForEach(…)</code>
+        <p>
+          Your implementation must not use any functions of the <code>Array.prototype</code>!
+        </p>
       </div>
     </div>
   </section>
@@ -257,10 +262,310 @@
       </p>
       <p><strong>Hint: </strong></p>
       <div class="pro">
-        Do the above exercise, but return a sorted <code>fullNames</code> array:
-        The 'd' gender first, then 'f', then 'm', each gender in itself sorted
-        alphabetically!
+        <p>
+          Do the above exercise, but return a sorted <code>fullNames</code> array:
+          The 'd' gender first, then 'f', then 'm', each gender in itself sorted
+          alphabetically!
+        </p>
+        <p>
+          To establish a good habit, do not modify the <code>fullNames</code> array.
+        </p>
       </div>
+    </div>
+  </section>
+  
+  <section>
+    <h2>More parameters for our callbacks</h2>
+    <p>
+      <code>Array.prototype.map()</code>, just as <code>forEach</code>, supports
+      passing the element's index as the second parameter:
+      <pre><code>
+        const guestList = starWarsNames.map(function (name, index) {
+          return `Guest no. ${index + 1}: ${name}`;
+        });
+      </code></pre>
+    </p>
+    <p>
+      It also supports (just like <code>forEach</code>, although we have not talked about that yet)
+      <strong>a third parameter</strong>, which will be the array itself:
+      <pre><code>
+        function guestMap(name, index, inputArray) {
+          return `Guest no. ${index + 1} of ${inputArray.length}: ${name}`;
+        }
+        const guestList = starWarsNames.map(guestMap);
+      </code></pre>
+    </p>
+    <div class="exercise">
+      <p>
+        Using all the params: Write a callback for <code>map</code>.
+        It should double all elements in the first half of the array,
+        and divide the rest by three:
+        <pre><code>
+          const mapNumbers = [3, 5, 10, 12, 24, 60];
+          
+          function myCallback … // your code here
+          
+          console.log(mapNumbers.map(myCallback));
+          // Expected output: 
+          // 6, 10, 20, 4, 8, 20
+        </code></pre>
+      </p>
+      <div class="pro">
+        Do the above exercise, but using your own custom <code>map</code>
+        implementation: <code>console.log(mapNumbers.myMap(myCallback));</code>
+        <p>
+          Your implementation must not use any functions of the <code>Array.prototype</code>!
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <section>
+    <h2>Chaining</h2>
+    <p>
+      A nice feature of many functions of the <code>Array.prototype</code> is
+      their ability to be chained. For example, <code>map</code> returns an array
+      which can be used as the input for another array function:
+      <pre><code>
+        const randomNumbers = [7, 19, 3, 105, 66, 13, 8, 119, 4];
+        
+        function square (number) {
+          return number * number;
+        }
+        
+        function justLogIt (number) {
+          console.log(`The number is ${number}`);
+        }
+        
+        randomNumbers.map(square).forEach(justLogIt);
+      </code></pre>
+    </p>
+    <p>
+      In this example, we could of course have achieved the same effect with 
+      a single <code>forEach</code> invocation. But, as the callbacks get more
+      complex, it is nice to have them separate and reusable:
+      
+      <pre><code>
+        const randomNumbers = [7, 19, 3, 105, 66, 13, 8, 119, 4];
+        
+        function square (number) {
+          return number * number;
+        }
+        
+        function justLogIt (number) {
+          console.log(`The number is ${number}`);
+        }
+        function countDigits(number) {
+          const numberOfDigits = number.toString().length;
+          const s = numberOfDigits === 1 ? '' : 's';
+          console.log(`${number} has ${numberOfDigits} digit${s}!`);
+        }
+        
+        randomNumbers.map(square).forEach(justLogIt);
+        randomNumbers.map(square).forEach(countDigits);
+      </code></pre>
+    </p>
+    <div class="exercise">
+      <p>
+        Reusable functions: create two separate functions. 
+        <ul>
+          <li>
+            One will join the
+            <code>fistName</code> and <code>lastName</code> of a given input and
+            return the result.
+          </li>
+          <li>
+            One will take a provided name and print a greeting.
+          </li>
+        </ul>
+        Use the global <code>people</code> array, <code>map</code> and <code>forEach</code>
+        to greet everyone:
+        <pre><code>
+          function combinedName( … 
+          function printGreeting( …
+          …
+          // Hello Horst Schlemmer
+          // Hello Gundula Gausel
+          // …
+        </code></pre>
+      </p>
+      <div class="pro">
+        Do the above exercise, but make <code>combinedName</code> resolve
+        asynchronously by using <code>setTimeout</code>.
+      </div>
+    </div>
+  </section>
+  
+  
+  <section>
+    <h2><code>Array.prototype.filter</code></h2>
+    <p>
+      The <code>filter</code> function is used to filter out any elements
+      of an array not meeting a certain condition.
+      The callback passed to <code>filter</code> must return a boolean value.
+      The result array will consist of all elements for which the callback
+      returns a truthy value:
+      <pre><code>
+        const randomNumbers = [7, 19, 3, 105, 66, 13, 8, 119, 4];
+        
+        function numberIsEven(number) {
+          return number % 2 === 0;
+        }
+        const evenNumbers = randomNumbers.filter(numberIsEven);
+
+        const numbersBiggerThanTen = randomNumbers.filter(function (number) {
+          return number > 10;
+        });
+      </code></pre>
+      The <code>filter</code> callback is passed the usual parameters:
+      <pre><code>
+        // Pretty random example …
+        [0, 1, 7, 3, 1].filter(function (number, index, inputArray) {
+          if (number === index) {
+            return true;
+          }
+          return number < inputArray.length;
+        });
+      </code></pre>
+    </p>
+    <div class="exercise">
+      <p>
+        Ladies night: <code>filter</code> the global <code>people</code> array
+        so that only the famous females remain. Greet them individually:
+        <pre><code>
+          // Welcome to da club, Gundula Gausel ♣
+          // …
+        </code></pre>
+      </p>
+      <div class="pro">
+        Write a callback for <code>filter</code> which will return an array
+        with unique values:
+        <pre><code>
+          [1,2,3,1].filter(filterUnique)
+          // ==> [1,2,3]
+        </code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><code>filter</code>-like functions</h2>
+    <h3>Array.prototype.find()</h3>
+    <p>
+      <code>find</code> works like <code>filter</code>, but will return the first element
+      for which the callback returns true, not iterating the others:
+      <pre><code>
+        function unknownMale(person) {
+          // Have some output to see what's going on:
+          console.log(`Checking ${person.firstName} ${person.lastName}`);
+          return person.gender === 'm' && !person.famous;
+        }
+        const firstUnknownMale = people.find(unknownMale);
+      </code></pre>
+    </p>
+    <h3><code>Array.prototype.every()</code></h3>
+    <p>
+      <code>every</code> returns <code>true</code> is all elements in the input
+      array satisfy the provided condition (the callback returns true):
+      <pre><code>
+        function numberIsEven(number) {
+          return number % 2 === 0;
+        }
+        const areTheyEven = [6, 8, 12, 20, 0].every(numberIsEven);
+        // true
+        const theseAreNot = [6, 8, 12, 21, 0].every(numberIsEven);
+        // false
+      </code></pre>
+    </p>
+    <h3><code>Array.prototype.some()</code></h3>
+    <p>
+      <code>some</code> returns <code>true</code> if at least one element in
+      the array satisfies the provided condition (the callback returns true):
+      <pre><code>
+        const randomNumbers = [7, 19, 3, 105, 66, 13, 8, 119, 4];
+        
+        function divisibleByFive(number) {
+          return number % 5 === 0;
+        }
+        
+        const isThereAny = randomNumbers.some(divisibleByFive);
+      </code></pre>
+    </p>
+    <div class="exercise">
+      <p>
+        We want to see if our group of <code>people</code> can enter the club.
+        Check if there are any minors in the group, using different approaches:
+        <ul>
+          <li><code>Array.prototype.find()</code></li>
+          <li><code>Array.prototype.every()</code></li>
+          <li><code>Array.prototype.some()</code></li>
+          <li><code>Array.prototype.filter()</code></li>
+        </ul>
+        Bonus question: why is <code>filter</code> not a good solution here?
+      </p>
+      <div class="pro">
+        Provide empirical data for your answer to the bonus question.
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Array.prototype.reduce()</h2>
+    <div class="subhead">Doing everything at once</div>
+    <p>
+      <code>reduce</code> is a powerful function – using it, you could easily
+      recreate the functionality of <code>map</code>, <code>filter</code>,
+      <code>forEach</code> and all other array functions presented thus far.
+    </p>
+    <p>
+      The callback to <code>reduce</code> takes an <strong>additional argument</strong>,
+      which will be the first parameter passed: a so-called <code>accumulator</code>.
+      Each invocation of the callback may modify the accumulator before returning it,
+      or return a totally new accumulator altogether.
+    </p>
+    <p>
+      The result of a call to <code>reduce</code> is the value of the last returned
+      accumulator.
+    </p>
+    <p>
+      In addition to the callback function, <code>reduce</code> accepts a second
+      parameter, which is the initial value for the accumulator.
+    </p>
+    <p>
+      Let's see some code:
+      <pre><code>
+        // accumulator is often abbreviated 'acc'
+        function countLetters(acc, element) {
+          return acc + element.length;
+        }
+        const letters = starWarsNames.reduce(countLetters, 0);
+        // Notice, in the above line, the 0
+        // It is the initial value for our accumulator
+      </code></pre>
+    </p>
+    <p>
+      Since the accumulator can be of any type, reduce can create arbitrary
+      objects:
+      <pre><code>
+        function assignLetterCountToName(acc, name) {
+          acc[name] = name.length;
+          return acc;
+        }
+        const countObj = starWarsNames.reduce(assignLetterCountToName, {});
+      </code></pre>
+    </p>
+    <div class="exercise">
+      <p>
+        Call reduce on the global <code>people</code> array twice:
+        <ul>
+          <li>to return the oldest member of the group</li>
+          <li>to calculate the average age of the group</li>
+        </ul>
+      </p>
+      <p>
+        <strong>Hint:</strong> Beside accumulator, the callback for <code>reduce</code>
+        takes the same arguments as <code>map</code> and <code>forEach</code>.
+      </p>
     </div>
   </section>
   

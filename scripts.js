@@ -2,6 +2,8 @@ const starWarsNames = ['Luke', 'Leia', 'Obi Wan', 'Master Yoda', 'Darth Vader'];
 
 const randomNumbers = [7, 19, 3, 105, 66, 13, 8, 119, 4];
 
+const mapNumbers = [3, 5, 10, 12, 24, 60];
+
 const people = [
   {
     firstName: 'Horst',
@@ -18,13 +20,6 @@ const people = [
     gender: 'f',
   },
   {
-    firstName: 'Some',
-    lastName: 'Dude',
-    age: 25,
-    famous: false,
-    gender: 'm',
-  },
-  {
     firstName: 'Random',
     lastName: 'Chick',
     age: 19,
@@ -37,6 +32,20 @@ const people = [
     age: 32,
     famous: true,
     gender: 'd',
+  },
+  {
+    firstName: 'Michaela',
+    lastName: 'Schaffrath',
+    age: 49,
+    famous: true,
+    gender: 'f',
+  },
+  {
+    firstName: 'Peter',
+    lastName: 'Pan',
+    age: 12,
+    famous: true,
+    gender: 'm',
   },
   {
     firstName: 'Karl-Heinz',
@@ -53,17 +62,10 @@ const people = [
     gender: 'f',
   },
   {
-    firstName: 'Michaela',
-    lastName: 'Schaffrath',
-    age: 49,
-    famous: true,
-    gender: 'f',
-  },
-  {
-    firstName: 'Peter',
-    lastName: 'Pan',
-    age: 12,
-    famous: true,
+    firstName: 'Some',
+    lastName: 'Dude',
+    age: 25,
+    famous: false,
     gender: 'm',
   },
 

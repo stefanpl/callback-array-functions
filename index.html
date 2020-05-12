@@ -21,7 +21,7 @@
       that is, functions that can be called on any array.
     </p>
     <p>
-      More precisely, we will have a look at those <strong>array functions accepting a callback</strong> as one of their 
+      More precisely, we will have a look at <strong>array functions accepting a callback</strong> as one of their 
       arguments.
     </p>
     <h3>Wait, but why?</h3>
@@ -47,15 +47,15 @@
     <p>Without further ado, let's see some code:</p>
     <pre><code>
       const starWarsNames = [
-      'Luke',
-      'Leia',
-      'Obi Wan',
-      'Master Yoda',
-      'Darth Vader'
+        'Luke',
+        'Leia',
+        'Obi Wan',
+        'Master Yoda',
+        'Darth Vader'
       ];
       
-      names.forEach(function sayHi(name) {
-        console.log(`Hi ${name}`);
+      starWarsNames.forEach(function sayHi(name) {
+        console.log(`Hi ${name}!`);
       });
     </code></pre>
     <p>What will it do?</p>
@@ -79,7 +79,7 @@
   <section>
     <h2>So what is a callback?</h2>
     <p>
-      <code>forEach</code> expects to be given a function as its first (and only) parameter.
+      <code>forEach</code> expects to be given a function as its first parameter.
       From <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach">The MDN docs:</a>
       <blockquote>
         The forEach() method executes a provided function once for each array element.

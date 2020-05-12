@@ -1,0 +1,66 @@
+body, html {
+  height: 100%;
+  background-color: #001C40;
+  font-size: 24px;
+  color: white;
+}
+
+body {
+  padding: .5rem;
+}
+
+.subhead {
+  font-size: 130%;
+}
+
+section {
+  margin-top: 5rem;
+  border-top: 1px dotted white;
+}
+
+.exercise {
+  padding: 1rem;
+  margin: 1rem;
+  position: relative;
+  border: 1px solid white;
+  background-color: rgb(0, 19, 44);
+}
+.exercise:before {
+  margin-bottom: 1rem;
+  font-size: 130%;
+  content: 'Exercise';
+  background-color: #001C40;
+  padding: 1rem;
+  display: block;
+  position: relative;
+}
+.exercise .pro {
+  background-color: rgb(35, 0, 116);
+  margin-top: 1rem;
+  padding: .5rem;
+}
+.exercise .pro:before {
+  content: 'Going pro?';
+  display: block;
+  margin-bottom: .5rem;
+  position: relative;
+}
+
+.sparkle {
+  font-size: 200%;
+  color: pink;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a, a:link, a:visited, a:hover, a:active {
+  color: white;
+}
+
+blockquote {
+  background-color: rgb(35, 0, 116);
+  margin: 0;
+  padding: 2rem;
+}

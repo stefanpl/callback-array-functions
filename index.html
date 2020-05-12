@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>callback-based array functions</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.2/highlight.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.2/styles/a11y-dark.min.css">
+</head>
+<body>
+  <h1>callback-based array functions</h1>
+  <div class="subhead">
+    Doing stuff you could do otherwise, but with more <span class="sparkle">🦄</span>
+  </div>
+  
+  <section>
+    <h2>What is this about?</h2>
+    <p>
+      We will explore some of the functions that are available on the <strong>array prototype</strong> –
+      that is, functions that can be called on any array.
+    </p>
+    <p>
+      More precisely, we will have a look at those <strong>array functions accepting a callback</strong> as one of their 
+      arguments.
+    </p>
+    <h3>Wait, but why?</h3>
+    <p>
+      As the title suggest, these functions do not provide any functionality that could not be achieved otherwise
+      (by using loops, mostly). But, once you grok them, they provide <strong>powerful and elegant</strong> means of operating on arrays,
+      one of the most common data structures in programming.
+    </p>
+    <p>
+      To me, the use of <strong>callbacks</strong> has been a long-time mystery, stopping me from using these
+      array functions, but also hindering my understanding of the javascript language in general.
+    </p>
+    <p>
+      <strong>
+        So the goal for today is getting to know some very useful array methods,
+        while also deepening the general understanding of callback-based programming.
+      </strong>
+    </p>
+  </section>
+  
+  <section>
+    <h2>Let's get started</h2>
+    <p>Without further ado, let's see some code:</p>
+    <pre><code>
+      const starWarsNames = [
+        'Luke',
+        'Leia',
+        'Obi Wan',
+        'Master Yoda',
+        'Darth Vader'
+      ];
+      
+      names.forEach(function sayHi(name) {
+        console.log(`Hi ${name}`);
+      });
+    </code></pre>
+    <p>What will it do?</p>
+    
+    <div class="exercise">
+      <p>
+        Just to get our fingers warm: <strong>Re-write the above forEach function call, using a loop of your choice.
+          Check your result in the devtools' console.
+        </strong>
+      </p>
+      <p>
+        Hint: the <code>starWarsNames</code> array is already available in the global namespace.
+      </p>
+      <div class="pro">
+        Re-write the above function call, using a <code>while</code> loop and <code>Array.prototype.pop().</code>
+        <strong>Do not modify the original <code>starWarsNames</code> array!</strong>
+      </div>
+    </div>
+  </section>
+  
+  <section>
+    <h2>So what is a callback?</h2>
+    <p>
+      <code>forEach</code> expects to be given a function as its first (and only) parameter.
+      From <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach">The MDN docs:</a>
+      <blockquote>
+        The forEach() method executes a provided function once for each array element.
+      </blockquote>
+    </p>
+    <p>
+      The function you pass along to <code>forEach</code> is referred to as a <strong>callback</strong>.
+      <code>forEach</code> will call this function once for every element in the array, 
+      passing the respective element as an argument to the callback.
+    </p>
+    <p>Taken from <a href="https://developer.mozilla.org/en-US/docs/Glossary/Callback_function">the MDN glossary</a>:
+      <blockquote>
+        A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action.
+      </blockquote>
+    </p>
+    <p>
+      
+    </p>
+    
+  </section>
+  
+  <section>
+    <h2>Variations</h2>
+    <p>Since <code>forEach accepts a function, all of these are perfectly valid:</code></p>
+    <pre><code>
+      const starWarsNames = [
+        // …
+      ];
+      
+      // We've had this one before
+      starWarsNames.forEach(function sayHi(name) {
+        console.log(`Hi ${name}`);
+      });
+      
+      
+      // Defining the function first …
+      function sayHi(name) {
+        console.log(`Hi ${name}`);
+      }
+      // … and have a much cleaner-looking call:
+      starWarsNames.forEach(sayHi);
+      
+      
+      // Using an anonymous function:
+      starWarsNames.forEach(function (name) {
+        console.log(`Hi ${name}`);
+      });
+      
+      
+      // Kind of weird, but working:
+      const myFunc = function (name) {
+        console.log(`Hi ${name}`);
+      }
+      starWarsNames.forEach(myFunc);
+      
+      
+      // Using an (ES6) arrow function for a one-liner:
+      starWarsNames.forEach(name => console.log(name));
+      // (no arrow-functions needed to proceed …)
+      
+    </code></pre>
+    
+    <div class="exercise">
+      <p>
+        (probably) Your first <code>forEach</code> (for today): Using the global <code>people</code> array,
+        write a <code>forEach</code> function which <code>console.log</code>s a greeting
+        for every person. Like: 'Hello Horst Schlemmer!'
+      </p>
+      <p><strong>Hint:</strong> Have a look at the <code>people</code> array first using the <code>console.table</code> function!</p>
+      <div class="pro">
+        Do the above exercise, but using your own custom <code>forEach</code> implementation:
+        <code>people.myForEach(…)</code>
+      </div>
+    </div>
+  </section>
+  
+  
+  <section>
+    <h2>Passing indices</h2>
+    <p>
+      <code>forEach</code> (as all callback-based array functions) will not only
+      pass the current element to the callback, but also its index in the array.
+      
+      <pre><code>
+        starWarsNames.forEach(function hiWithIndex(name, index) {
+          console.log(`Hello ${name}, you are on position ${index + 1}`);
+        })
+      </code></pre>
+    </p>
+    <p>
+      The order of parameter is crucial here: the first argument passed
+      to your callback will always be the array element. If your callback
+      also accepts a second parameter, it will be the element's index.
+      <strong>The names of the callback parameters is totally arbitrary!</strong>
+      <pre><code>
+        // THIS WILL NOT WORK!!!
+        // the first parameter is ALWAYS the array element!
+        starWarsNames.forEach(function badCallback(index) {
+          console.log(`We have a guest on index ${index}`);
+        })
+        
+        
+        // If you do not need the array element (weird, but okay …), 
+        // simply ignore it:
+        starWarsNames.forEach(function okayCallback(name, index) {
+          console.log(`We have a guest on index ${index}`);
+        })
+      </code></pre>
+    </p>
+    
+    <div class="exercise">
+      <p>
+        Wrapping it up: Write a function which takes an array of names,
+        and greets every one of them. To make it less boring, greet every second
+        guest with a different greeting.
+        <pre><code>
+          function myGreeterFunction … // your code here
+          
+          myGreeterFunction(starWarsNames);
+          // Be greeted, Luke!
+          // Hi there, Leia!
+          // Be greeted, …
+          // Hi there, …
+        </code></pre>
+      </p>
+      <p><strong>Hint: </strong></p>
+      <div class="pro">
+        Do the above exercise, but greeting the names in alphabetical order!
+        Leave the input array untouched.
+      </div>
+    </div>
+    
+  </section>
+  
+  <section>
+    <h2><code>Array.prototype.map</code></h2>
+    <div class="subhead">Turning one array into another array</div>
+    <p>
+      From <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map">the MDN docs</a>:
+      <blockquote>
+        The <code>map()</code> method creates a new array populated with the results 
+        of calling a provided function on every element in the calling array.
+      </blockquote>
+    </p>
+    <p>
+      Trying to phrase it differently: <code>map()</code> takes every element of an array,
+      does something with it, and stores the results in a new array. Let's see:
+      <pre><code>
+        const randomNumbers = [7, 19, 3, 105, 66, 13, 8, 119, 4];
+        
+        function square(number) {
+          // Note: the callback must return a value!
+          return number * number;
+        }
+        
+        const randomSquares = randomNumbers.map(square);
+      </code></pre>
+    </p>
+    <p>Step by step:</p>
+    <ul>
+      <li>We call <code>map</code> on our randomNumbers array</li>
+      <li>The function <code>square</code> is called for each array element</li>
+      <li><code>square</code> returns a squared value for each element</li>
+      <li>The array of squared values is saved in the <code>randomSquares</code> variable</li>
+    </ul>
+    <div class="exercise">
+      <p>
+        Fist <code>map</code>: use the global <code>people</code> array,
+        and create a new array from it which contains all the full names:
+        <pre><code>
+          const fullNames = … // Your code
+          // fullNames:
+          // ['Horst Schlemmer', 'Gundula Gausel', 'Some Dude' …]
+        </code></pre>
+      </p>
+      <p><strong>Hint: </strong></p>
+      <div class="pro">
+        Do the above exercise, but return a sorted <code>fullNames</code> array:
+        The 'd' gender first, then 'f', then 'm', each gender in itself sorted
+        alphabetically!
+      </div>
+    </div>
+  </section>
+  
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script src="scripts.js"></script>
+</body>
+</html>
